@@ -270,7 +270,62 @@
     font-size: 0.8rem;
     margin: 0.2rem;
   }
+
+  /* Landing page navbar */
+  .landing-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--background);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+  }
+
+  .landing-nav-brand {
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .landing-nav-brand:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .landing-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .landing-nav-links a {
+    font-size: 0.9rem;
+    opacity: 0.75;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.15s;
+  }
+
+  .landing-nav-links a:hover {
+    opacity: 1;
+  }
 </style>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="landing-nav">
+  <a href="{% url 'home' %}" class="landing-nav-brand">Icelandic OCR</a>
+  <div class="landing-nav-links">
+    <a href="#demo">Demo</a>
+    <a href="{% url 'contactus' %}">Contact</a>
+    {% if not user.is_authenticated %}
+    <a href="{% url 'login' %}" class="btn btn-primary btn-sm">Sign in</a>
+    {% endif %}
+  </div>
+</nav>
 
 <!-- ============ HERO ============ -->
 <section class="landing-section hero">
