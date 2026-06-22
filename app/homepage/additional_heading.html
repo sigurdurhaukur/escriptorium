@@ -1,5 +1,22 @@
 {% load static %}
 <style>
+  /* Reset the app flex layout for the landing page */
+  .homepage.escr-body {
+    display: block !important;
+    height: auto !important;
+    overflow-y: visible !important;
+    max-height: none !important;
+    align-items: normal !important;
+  }
+
+  .homepage main,
+  .homepage main:has(.escr-vue-enabled):not(:has(.escr-page)) {
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
   /* Force full-width landing page, no padding */
   .escr-vue-enabled,
   .homepage #main,
