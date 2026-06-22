@@ -41,6 +41,7 @@
     {% block extrastyle %}{% endblock extrastyle %}
   </head>
   <body id="escriptorium" class="escr-body {% block bodyclass %}{% endblock %}">
+    {% block navigation %}
     {% if user.legacy_mode %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="{% url 'home' %}">
@@ -175,6 +176,7 @@
       ></global-navigation>
     </div>
     {% endif %}
+    {% endblock navigation %}
 
     <main><section>
     <div id="main" class="container-fluid{% if not request.user.legacy_mode %} escr-vue-enabled{% endif %}">

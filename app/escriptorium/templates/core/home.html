@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
 {% load i18n static %}
-{% block head_title %}{% trans "Homepage" %}{% endblock %}
+{% block head_title %}{% if CUSTOM_HOME %}Icelandic OCR{% else %}{% trans "Homepage" %}{% endif %}{% endblock %}
 
 {% block nav-home-class %}active{% endblock %}
 {% block bodyclass %}homepage{% endblock %}
 
+{% block navigation %}
+  {% if user.is_authenticated %}{{ block.super }}{% endif %}
+{% endblock %}
+
 {% block body %}
+{% if CUSTOM_HOME %}
+  {% include "additional_heading.html" %}
+  {% include "additional_icons.html" %}
+  {% include "additional_footer.html" %}
+{% else %}
 <style>
 /* Show light mode logos by default and in light-mode (files named Dark.png) */
 .light-mode a img[src*="Dark.png"],
@@ -27,12 +36,8 @@ html:not(.dark-mode) a img[src*="Light.png"] {
 </style>
 
 <div class="jumbotron text-center bg-light">
-    {% if CUSTOM_HOME %}
-        {% include "additional_heading.html" %}
-    {% else %}
-        <h1 class="jumbotron-heading">eScriptorium</h1>
-        <p class="lead text-muted">{% trans "eScriptorium: A Digital Text Production Pipeline for Print and Handwritten Texts using machine learning techniques." %}</p>
-    {% endif %}
+    <h1 class="jumbotron-heading">eScriptorium</h1>
+    <p class="lead text-muted">{% trans "eScriptorium: A Digital Text Production Pipeline for Print and Handwritten Texts using machine learning techniques." %}</p>
     {% if not user.is_authenticated %}
         <a class="btn btn-primary" href="{% url 'login' %}" role="button">{% trans "Sign in" %}</a>
     {% endif %}
@@ -140,9 +145,6 @@ html:not(.dark-mode) a img[src*="Light.png"] {
                     <li class="mt-1">Partially funded by a grant from The Andrew W. Mellon Foundation.</li>
                 </ul>
             </div>
-            {% if CUSTOM_HOME %}
-            {% include "additional_footer.html" %}
-            {% endif %}
         </div>
     </div>
 </footer>
@@ -192,10 +194,5 @@ html:not(.dark-mode) a img[src*="Light.png"] {
         </div>
     </div>
 </div>
-
-{% if CUSTOM_HOME %}
-{% include "additional_icons.html" %}
 {% endif %}
-
-
 {% endblock %}

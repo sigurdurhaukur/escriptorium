@@ -1,0 +1,499 @@
+{% load static %}
+<style>
+  /* Force full-width landing page, no padding */
+  .escr-vue-enabled,
+  .homepage #main,
+  .homepage .container-fluid {
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+  }
+
+  :root {
+    --ice-blue: #004b87;
+    --ice-teal: #008080;
+    --ice-red: #dc2a2a;
+    --ice-white: #f5f5f5;
+    --section-gap: 5rem;
+  }
+
+  [data-bs-theme="dark"] {
+    --ice-blue: #4a8bc2;
+    --ice-teal: #40bfbf;
+  }
+
+  .landing-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .landing-section:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  [data-bs-theme="dark"] .landing-section:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--ice-blue) 0%, transparent 50%, var(--ice-teal) 100%);
+    opacity: 0.08;
+    pointer-events: none;
+  }
+
+  .hero-brand {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+  }
+
+  .hero-tagline {
+    font-size: 1.1rem;
+    opacity: 0.7;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-headline {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+  }
+
+  .flag-divider {
+    display: inline-block;
+    width: 3rem;
+    height: 3px;
+    border-radius: 2px;
+    margin: 0 0.5rem 0.2rem;
+    background: linear-gradient(90deg, var(--ice-blue), var(--ice-white), var(--ice-red));
+  }
+
+  /* Demo mockup */
+  .demo-mockup {
+    border: 2px dashed rgba(128, 128, 128, 0.3);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+
+  .demo-mockup:hover {
+    border-color: var(--ice-teal);
+  }
+
+  .demo-mockup-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.4;
+  }
+
+  .sample-output {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+
+  [data-bs-theme="dark"] .sample-output {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* Feature cards */
+  .feature-card {
+    border: 1px solid rgba(128, 128, 128, 0.15);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    height: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .feature-card .icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  /* Education card */
+  .edu-card {
+    border: 1px solid rgba(128, 128, 128, 0.12);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    height: 100%;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+
+  .edu-card:hover {
+    border-color: var(--ice-teal);
+  }
+
+  .edu-card h4 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  /* Blog card */
+  .blog-card {
+    border: 1px solid rgba(128, 128, 128, 0.12);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    height: 100%;
+    transition: border-color 0.2s;
+  }
+
+  .blog-card:hover {
+    border-color: var(--ice-teal);
+  }
+
+  .blog-card .date {
+    font-size: 0.8rem;
+    opacity: 0.6;
+  }
+
+  .blog-card h4 {
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  /* CTA block */
+  .cta-block {
+    border-radius: 1rem;
+    padding: 3.5rem 2rem;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(0, 75, 135, 0.08), rgba(0, 128, 128, 0.08));
+    border: 1px solid rgba(128, 128, 128, 0.1);
+  }
+
+  [data-bs-theme="dark"] .cta-block {
+    background: linear-gradient(135deg, rgba(74, 139, 194, 0.08), rgba(64, 191, 191, 0.08));
+  }
+
+  /* Custom footer */
+  .landing-footer {
+    border-top: 1px solid rgba(128, 128, 128, 0.12);
+    padding: 2.5rem 0 1rem;
+    margin-top: 2rem;
+  }
+
+  .landing-footer a {
+    opacity: 0.75;
+    transition: opacity 0.15s;
+  }
+
+  .landing-footer a:hover {
+    opacity: 1;
+    text-decoration: none;
+  }
+
+  .landing-footer h6 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.5;
+    margin-bottom: 0.75rem;
+  }
+
+  .landing-footer ul {
+    list-style: none;
+    padding: 0;
+    font-size: 0.9rem;
+  }
+
+  .landing-footer ul li {
+    margin-bottom: 0.35rem;
+  }
+
+  /* Attr badges */
+  .attr-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    margin: 0.2rem;
+  }
+</style>
+
+<!-- ============ HERO ============ -->
+<section class="landing-section hero">
+  <div class="container" style="max-width: 780px;">
+    <p class="hero-tagline">
+      Ljóslestr fyrir Íslensku
+      <span class="flag-divider"></span>
+      OCR for Icelandic
+    </p>
+    <h1 class="hero-brand">Icelandic OCR</h1>
+    <h2 class="hero-headline">Digitizing Iceland's Literary Heritage</h2>
+    <p class="hero-sub">
+      Open-source HTR and OCR for historical Icelandic documents.
+      A crowdsourcing platform to build the first automated text recognition
+      system for the Icelandic language.
+    </p>
+    <div class="mt-4">
+      <a href="mailto:sigurdur@sigurdurhaukur.com" class="btn btn-primary btn-lg px-4 me-3 mb-2">
+        Join the project
+      </a>
+      <a href="#demo" class="btn btn-outline-secondary btn-lg px-4 mb-2">
+        Try the demo &darr;
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEMO MOCKUP ============ -->
+<section id="demo" class="landing-section">
+  <div class="container" style="max-width: 960px;">
+    <h3 class="text-center mb-2 fw-bold">See it in action</h3>
+    <p class="text-center mb-4" style="opacity:0.65;">
+      Upload a page &mdash; Icelandic OCR transcribes it automatically
+    </p>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="demo-mockup">
+          <div class="demo-mockup-icon">&#128196;</div>
+          <p class="fw-semibold mb-1">Upload a document image</p>
+          <p class="small mb-2" style="opacity:0.6;">Drag &amp; drop or paste a URL</p>
+          <button class="btn btn-sm btn-outline-primary" disabled>Upload</button>
+          <button class="btn btn-sm btn-link">Try with example</button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="sample-output">
+          <div style="opacity:0.4; font-size:0.8rem; margin-bottom:0.5rem;">OCR output &mdash; example</div>
+          <div style="opacity:0.85;">
+            Hinu unga l&yacute;&eth;inu &iacute; &THORN;ingeyjars&yacute;slu fannst
+            &thorn;a&eth; &oacute;h&aelig;gt a&eth; &thorn;urfa a&eth; s&aelig;kja
+            &thornj&oacute;nustu langar lei&eth;ir.
+            <br><br>
+            <span style="opacity:0.5; font-style:italic;">
+              &larr; Recognised with 94% confidence from a 19th-century letter
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THREE FEATURES ============ -->
+<section class="landing-section">
+  <div class="container" style="max-width: 960px;">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card text-center">
+          <div class="icon">&#9998;</div>
+          <h3>Contribute transcriptions</h3>
+          <p style="opacity:0.75;">
+            Help train models by annotating historical Icelandic documents
+            in the browser.
+          </p>
+          <a href="{% url 'login' %}" class="btn btn-sm btn-outline-primary">Start annotating</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card text-center">
+          <div class="icon">&#128451;</div>
+          <h3>Access training data</h3>
+          <p style="opacity:0.75;">
+            19th-century letters, newspapers from <em>timarit.is</em>,
+            manuscripts from <em>handrit.is</em>, and more.
+          </p>
+          <a href="https://huggingface.co/" class="btn btn-sm btn-outline-primary" target="_blank">Browse on HF</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card text-center">
+          <div class="icon">&#128214;</div>
+          <h3>Research &amp; updates</h3>
+          <p style="opacity:0.75;">
+            Latest findings on Icelandic OCR, benchmarks, and active
+            learning strategies.
+          </p>
+          <a href="#" class="btn btn-sm btn-outline-primary">Read blog</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDUCATION ============ -->
+<section class="landing-section">
+  <div class="container" style="max-width: 960px;">
+    <h3 class="text-center mb-4 fw-bold">Getting started</h3>
+    <div class="row g-3">
+      <div class="col-6 col-md-3">
+        <div class="edu-card">
+          <h4>Quick start guide</h4>
+          <p class="small" style="opacity:0.65;">
+            Transcribe your first document in 5 minutes.
+          </p>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="edu-card">
+          <h4>Train your own model</h4>
+          <p class="small" style="opacity:0.65;">
+            Fine-tune Kraken on Icelandic data.
+          </p>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="edu-card">
+          <h4>API docs</h4>
+          <p class="small" style="opacity:0.65;">
+            Integrate with the REST API.
+          </p>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="edu-card">
+          <h4>FAQ</h4>
+          <p class="small" style="opacity:0.65;">
+            Common questions about the platform.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BLOG ============ -->
+<section class="landing-section">
+  <div class="container" style="max-width: 960px;">
+    <h3 class="text-center mb-4 fw-bold">Latest updates</h3>
+
+    <div class="row g-3">
+      <!-- blog card 1 -->
+      <div class="col-md-4">
+        <div class="blog-card">
+          <p class="date">June 2026</p>
+          <h4>Benchmarking OCR models for 19th-century Icelandic</h4>
+          <p class="small" style="opacity:0.65;">
+            We evaluate Kraken, Tesseract, and TrOCR on a corpus of
+            handwritten letters from the National Archives.
+          </p>
+        </div>
+      </div>
+      <!-- blog card 2 -->
+      <div class="col-md-4">
+        <div class="blog-card">
+          <p class="date">May 2026</p>
+          <h4>Active learning pipeline goes live</h4>
+          <p class="small" style="opacity:0.65;">
+            Our new annotation workflow prioritises uncertain predictions
+            so every hour of labelling delivers maximum model improvement.
+          </p>
+        </div>
+      </div>
+      <!-- blog card 3 -->
+      <div class="col-md-4">
+        <div class="blog-card">
+          <p class="date">April 2026</p>
+          <h4>Partnership with University of Groningen</h4>
+          <p class="small" style="opacity:0.65;">
+            The Centre for Digital Humanities provides GPU compute and
+            research support for training Icelandic HTR models.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSING CTA ============ -->
+<section class="landing-section">
+  <div class="container" style="max-width: 700px;">
+    <div class="cta-block">
+      <h3 class="fw-bold mb-2">Join the mission</h3>
+      <p style="opacity:0.75; max-width: 480px; margin: 0 auto 1.5rem;">
+        We're recruiting annotators, researchers, and developers.
+        No experience with OCR needed &mdash; just an interest in
+        Icelandic cultural heritage.
+      </p>
+      <a href="mailto:sigurdur@sigurdurhaukur.com" class="btn btn-primary btn-lg px-5">
+        Get involved
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="landing-footer">
+  <div class="container" style="max-width: 960px;">
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <h6>Data partners</h6>
+        <div>
+          <span class="attr-badge">CLARIN-IS</span>
+          <span class="attr-badge">timarit.is</span>
+          <span class="attr-badge">handrit.is</span>
+        </div>
+        <p class="small mt-2" style="opacity:0.5;">
+          Built on <a href="https://escriptorium.eu/" target="_blank">eScriptorium</a>
+          &middot; OCR engine by <a href="http://kraken.re/" target="_blank">Kraken</a>
+        </p>
+      </div>
+      <div class="col-md-4 mb-3">
+        <h6>Quick nav</h6>
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="#demo">Demo</a></li>
+          <li><a href="{% url 'login' %}">Sign in</a></li>
+          <li><a href="{% url 'contactus' %}">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-3">
+        <h6>Connect</h6>
+        <ul>
+          <li><a href="https://github.com/" target="_blank">GitHub</a></li>
+          <li><a href="https://huggingface.co/" target="_blank">Hugging Face</a></li>
+          <li><a href="mailto:sigurdur@sigurdurhaukur.com">sigurdur@sigurdurhaukur.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="text-center small pb-3" style="opacity:0.4;">
+      Icelandic OCR &middot; Ljóslestr fyrir Íslensku
+    </div>
+  </div>
+</footer>
