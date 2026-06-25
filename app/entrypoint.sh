@@ -9,7 +9,11 @@ echo "PostgreSQL started"
 
 python manage.py migrate
 
-# static files
+# Start uwsgi first so nginx doesn't get 502
+"$@" &
+UWSGI_PID=$!
+
+# Run collectstatic in background while serving
 python manage.py collectstatic --no-input
 
-exec "$@"
+wait $UWSGI_PID

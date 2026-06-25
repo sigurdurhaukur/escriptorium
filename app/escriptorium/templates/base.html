@@ -1,5 +1,5 @@
 {% load i18n language_flags_tags static %}<!DOCTYPE html>
-{% get_current_language as LANGUAGE_CODE %}<html lang="{{ LANGUAGE_CODE }}" data-bs-theme="dark">
+{% get_current_language as LANGUAGE_CODE %}<html lang="{{ LANGUAGE_CODE }}" data-bs-theme="light">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,13 +27,16 @@
       const activeTheme = localStorage.getItem("user-theme");
       if (activeTheme === "dark-mode") {
           document.documentElement.className = "dark-mode";
+          document.documentElement.setAttribute("data-bs-theme", "dark");
+      } else {
+          document.documentElement.setAttribute("data-bs-theme", "light");
       }
     </script>
 
     {% block styles %}
     <link href="{% static 'vendor.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'main.css' %}" rel="stylesheet" type="text/css">
-    {% if not user.legacy_mode %}
+    {% if user.is_authenticated and not user.legacy_mode %}
     <link href="{% static 'globalNavigation.css' %}" rel="stylesheet" type="text/css">
     {% endif %}
     <link href="{% static 'css/flags.css' %}" rel="stylesheet" type="text/css">
@@ -42,7 +45,7 @@
   </head>
   <body id="escriptorium" class="escr-body {% block bodyclass %}{% endblock %}">
     {% block navigation %}
-    {% if user.legacy_mode %}
+    {% if not user.is_authenticated or user.legacy_mode %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="{% url 'home' %}">
         <img src="{% static "images/escriptorium_hd.png" %}" alt="" width="30" height="30" class="mb-1">
@@ -168,7 +171,7 @@
         </ul>
       </div>
     </nav>
-    {% else %}
+    {% elif user.is_authenticated and not user.legacy_mode %}
     <div id="vue-global-nav">
       <global-navigation
         :is-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}"
@@ -179,7 +182,7 @@
     {% endblock navigation %}
 
     <main><section>
-    <div id="main" class="container-fluid{% if not request.user.legacy_mode %} escr-vue-enabled{% endif %}">
+    <div id="main" class="container-fluid{% if user.is_authenticated and not request.user.legacy_mode %} escr-vue-enabled{% endif %}">
     {% block body %}
     {% endblock body %}
     </div>
@@ -189,7 +192,7 @@
 
     {% block scripts %}
     <script src="{% static 'main.js' %}"></script>
-    {% if not user.legacy_mode %}
+    {% if user.is_authenticated and not user.legacy_mode %}
     <script src="{% static 'globalNavigation.js' %}"></script>
     {% endif %}
     <script>

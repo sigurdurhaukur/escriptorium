@@ -1,30 +1,72 @@
 {% load static %}
 <style>
   /* Reset the app flex layout for the landing page */
-  .homepage.escr-body {
-    display: block !important;
+  .homepage.escr-body,
+  body.homepage {
     height: auto !important;
     overflow-y: visible !important;
     max-height: none !important;
     align-items: normal !important;
+    display: block !important;
+    flex-direction: initial !important;
   }
 
   .homepage main,
+  .homepage main:has(.escr-vue-enabled),
   .homepage main:has(.escr-vue-enabled):not(:has(.escr-page)) {
     max-height: none !important;
     overflow: visible !important;
     padding: 0 !important;
     width: 100% !important;
+    display: block !important;
+    flex: initial !important;
   }
 
   /* Force full-width landing page, no padding */
-  .escr-vue-enabled,
+  .homepage .escr-vue-enabled,
   .homepage #main,
   .homepage .container-fluid {
     max-width: 100% !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
     width: 100% !important;
+  }
+
+  /* Re-center containers on the homepage — overrides escriptorium.css margin:0 */
+  body.homepage main .container,
+  body.homepage main:has(.escr-vue-enabled) .container {
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  /* Ensure landing page sections span full width */
+  .homepage.escr-body main {
+    width: 100% !important;
+  }
+
+  /* Ensure html and body elements don't have conflicting flex layouts */
+  html.homepage,
+  body.homepage {
+    display: block !important;
+  }
+
+  /* Make feature/blog/edu cards flex containers for vertical centering */
+  .homepage .feature-card,
+  .homepage .blog-card,
+  .homepage .edu-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .feature-card,
+  .blog-card,
+  .edu-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   :root {
@@ -44,12 +86,16 @@
     padding: 4rem 1.5rem;
   }
 
-  .landing-section:nth-child(even) {
-    background-color: rgba(0, 0, 0, 0.03);
+  html[data-bs-theme="light"] .landing-section:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.03) !important;
   }
 
-  [data-bs-theme="dark"] .landing-section:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.03);
+  html[data-bs-theme="dark"] .landing-section:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+  }
+
+  .dark-mode .landing-section:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03) !important;
   }
 
   /* Hero */
@@ -190,6 +236,70 @@
     font-weight: 600;
   }
 
+  /* Getting-started step track */
+  .step-track {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step-track::before {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--ice-teal);
+    opacity: 0.3;
+  }
+
+  .step-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .step-item:last-child {
+    padding-bottom: 0;
+  }
+
+  .step-number {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    background: var(--ice-teal);
+    color: #fff;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-body {
+    padding-top: 0.6rem;
+  }
+
+  .step-body h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .step-body p {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 0;
+  }
+
   /* Blog card */
   .blog-card {
     border: 1px solid rgba(128, 128, 128, 0.12);
@@ -271,67 +381,13 @@
     margin: 0.2rem;
   }
 
-  /* Landing page navbar */
-  .landing-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--background);
-    border-bottom: 1px solid rgba(128, 128, 128, 0.1);
-  }
-
-  .landing-nav-brand {
-    font-weight: 700;
-    font-size: 1.1rem;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .landing-nav-brand:hover {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .landing-nav-links {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  .landing-nav-links a {
-    font-size: 0.9rem;
-    opacity: 0.75;
-    text-decoration: none;
-    color: inherit;
-    transition: opacity 0.15s;
-  }
-
-  .landing-nav-links a:hover {
-    opacity: 1;
-  }
 </style>
-
-<!-- ============ NAVBAR ============ -->
-<nav class="landing-nav">
-  <a href="{% url 'home' %}" class="landing-nav-brand">Icelandic OCR</a>
-  <div class="landing-nav-links">
-    <a href="#demo">Demo</a>
-    <a href="{% url 'contactus' %}">Contact</a>
-    {% if not user.is_authenticated %}
-    <a href="{% url 'login' %}" class="btn btn-primary btn-sm">Sign in</a>
-    {% endif %}
-  </div>
-</nav>
 
 <!-- ============ HERO ============ -->
 <section class="landing-section hero">
   <div class="container" style="max-width: 780px;">
     <p class="hero-tagline">
-      Ljóslestr fyrir Íslensku
+      Ljóslestur fyrir Íslensku
       <span class="flag-divider"></span>
       OCR for Icelandic
     </p>
@@ -353,37 +409,21 @@
   </div>
 </section>
 
-<!-- ============ DEMO MOCKUP ============ -->
+<!-- ============ DEMO ============ -->
 <section id="demo" class="landing-section">
   <div class="container" style="max-width: 960px;">
     <h3 class="text-center mb-2 fw-bold">See it in action</h3>
     <p class="text-center mb-4" style="opacity:0.65;">
       Upload a page &mdash; Icelandic OCR transcribes it automatically
     </p>
-    <div class="row g-4">
-      <div class="col-md-6">
-        <div class="demo-mockup">
-          <div class="demo-mockup-icon">&#128196;</div>
-          <p class="fw-semibold mb-1">Upload a document image</p>
-          <p class="small mb-2" style="opacity:0.6;">Drag &amp; drop or paste a URL</p>
-          <button class="btn btn-sm btn-outline-primary" disabled>Upload</button>
-          <button class="btn btn-sm btn-link">Try with example</button>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="sample-output">
-          <div style="opacity:0.4; font-size:0.8rem; margin-bottom:0.5rem;">OCR output &mdash; example</div>
-          <div style="opacity:0.85;">
-            Hinu unga l&yacute;&eth;inu &iacute; &THORN;ingeyjars&yacute;slu fannst
-            &thorn;a&eth; &oacute;h&aelig;gt a&eth; &thorn;urfa a&eth; s&aelig;kja
-            &thornj&oacute;nustu langar lei&eth;ir.
-            <br><br>
-            <span style="opacity:0.5; font-style:italic;">
-              &larr; Recognised with 94% confidence from a 19th-century letter
-            </span>
-          </div>
-        </div>
-      </div>
+    <div style="position: relative; width: 100%; min-height: 700px;">
+      <iframe
+        src="https://sigurdur-icelandic-ocr.hf.space"
+        frameborder="0"
+        width="100%"
+        height="700"
+        style="border-radius: 0.75rem; border: 1px solid rgba(128,128,128,0.15);"
+      ></iframe>
     </div>
   </div>
 </section>
@@ -411,7 +451,7 @@
             19th-century letters, newspapers from <em>timarit.is</em>,
             manuscripts from <em>handrit.is</em>, and more.
           </p>
-          <a href="https://huggingface.co/" class="btn btn-sm btn-outline-primary" target="_blank">Browse on HF</a>
+          <a href="https://huggingface.co/Sigurdur" class="btn btn-sm btn-outline-primary" target="_blank">Browse on HF</a>
         </div>
       </div>
       <div class="col-md-4">
@@ -429,43 +469,68 @@
   </div>
 </section>
 
-<!-- ============ EDUCATION ============ -->
+<!-- ============ GETTING STARTED ============ -->
 <section class="landing-section">
   <div class="container" style="max-width: 960px;">
-    <h3 class="text-center mb-4 fw-bold">Getting started</h3>
-    <div class="row g-3">
-      <div class="col-6 col-md-3">
-        <div class="edu-card">
-          <h4>Quick start guide</h4>
-          <p class="small" style="opacity:0.65;">
-            Transcribe your first document in 5 minutes.
+    <h3 class="text-center mb-5 fw-bold">Getting started</h3>
+    <ul class="step-track">
+      <li class="step-item">
+        <span class="step-number">1</span>
+        <div class="step-body">
+          <h4>Email me</h4>
+          <p>
+            Send me a note at <a href="mailto:sigurdur@sigurdurhaukur.com">sigurdur@sigurdurhaukur.com</a>
+            expressing your interest &mdash; no commitment, just curiosity.
           </p>
         </div>
-      </div>
-      <div class="col-6 col-md-3">
-        <div class="edu-card">
-          <h4>Train your own model</h4>
-          <p class="small" style="opacity:0.65;">
-            Fine-tune Kraken on Icelandic data.
+      </li>
+      <li class="step-item">
+        <span class="step-number">2</span>
+        <div class="step-body">
+          <h4>Short interview</h4>
+          <p>
+            We hop on a quick call to understand your research goals and
+            what kind of documents you&rsquo;d like to help transcribe.
           </p>
         </div>
-      </div>
-      <div class="col-6 col-md-3">
-        <div class="edu-card">
-          <h4>API docs</h4>
-          <p class="small" style="opacity:0.65;">
-            Integrate with the REST API.
+      </li>
+      <li class="step-item">
+        <span class="step-number">3</span>
+        <div class="step-body">
+          <h4>Get access</h4>
+          <p>
+            I&rsquo;ll create your account on the Icelandic OCR platform and
+            send you login credentials along with a quick orientation guide.
           </p>
         </div>
-      </div>
-      <div class="col-6 col-md-3">
-        <div class="edu-card">
-          <h4>FAQ</h4>
-          <p class="small" style="opacity:0.65;">
-            Common questions about the platform.
+      </li>
+      <li class="step-item">
+        <span class="step-number">4</span>
+        <div class="step-body">
+          <h4>Annotate data</h4>
+          <p>
+            Use the browser-based editor to transcribe historical Icelandic
+            pages. Every annotation directly improves the next model training
+            run.
           </p>
         </div>
-      </div>
+      </li>
+      <li class="step-item">
+        <span class="step-number">5</span>
+        <div class="step-body">
+          <h4>Access the latest models &amp; research</h4>
+          <p>
+            Contributors get early access to newly trained HTR models,
+            benchmark results, and our active-learning research before
+            public release.
+          </p>
+        </div>
+      </li>
+    </ul>
+    <div class="text-center mt-4">
+      <a href="mailto:sigurdur@sigurdurhaukur.com" class="btn btn-primary btn-lg px-5">
+        Start the process
+      </a>
     </div>
   </div>
 </section>
@@ -558,14 +623,15 @@
       <div class="col-md-4 mb-3">
         <h6>Connect</h6>
         <ul>
-          <li><a href="https://github.com/" target="_blank">GitHub</a></li>
-          <li><a href="https://huggingface.co/" target="_blank">Hugging Face</a></li>
+          <li><a href="https://github.com/sigurdurhaukur" target="_blank">GitHub</a></li>
+          <li><a href="https://huggingface.co/Sigurdur" target="_blank">Hugging Face</a></li>
+          <li><a href="https://www.linkedin.com/in/sigurdur-haukur-birgisson/" target="_blank">LinkedIn</a></li>
           <li><a href="mailto:sigurdur@sigurdurhaukur.com">sigurdur@sigurdurhaukur.com</a></li>
         </ul>
       </div>
     </div>
     <div class="text-center small pb-3" style="opacity:0.4;">
-      Icelandic OCR &middot; Ljóslestr fyrir Íslensku
+      Icelandic OCR &middot; Ljóslestur fyrir Íslensku
     </div>
   </div>
 </footer>

@@ -6,7 +6,7 @@
 {% block bodyclass %}homepage{% endblock %}
 
 {% block navigation %}
-  {% if user.is_authenticated %}{{ block.super }}{% endif %}
+  {{ block.super }}
 {% endblock %}
 
 {% block body %}
