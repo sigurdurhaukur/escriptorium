@@ -41,14 +41,10 @@ def get_api_session():
     return s, url
 
 
-def find_project_id(session, api_url):
-    r = session.get(f"{api_url}projects/")
-    data = r.json()
-    projects = data.get("results", [])
-    if not projects:
-        logger.error("No projects found")
-        return None
-    project = projects[0]
+def find_project(session, api_url, project_id):
+    r = session.get(f"{api_url}projects/{project_id}/")
+    r.raise_for_status()
+    project = r.json()
     logger.info(f"Using project: {project['name']} (id={project['id']}, slug={project['slug']})")
     return project["id"], project["slug"]
 
@@ -81,14 +77,12 @@ def upload_image(session, api_url, document_id, image_path):
     return r.json()
 
 
-def main(dataset_name, split="train", project_slug="admins-project",
+def main(dataset_name, split="train", project_id=1,
          doc_name=None, image_column="image", max_samples=None):
     session, base_url = get_api_session()
     api_url = f"{base_url}/api/"
 
-    project_id, slug = find_project_id(session, api_url)
-    if not project_id:
-        return
+    project_pk, slug = find_project(session, api_url, project_id)
 
     dataset = load_dataset(dataset_name, split=split, streaming=True)
     logger.info("Dataset loaded (streaming)")
@@ -115,7 +109,7 @@ def main(dataset_name, split="train", project_slug="admins-project",
         if doc_name is None:
             doc_name = f"{dataset_name.replace('/', '_')}_{split}"
 
-        document_id = create_document(session, api_url, project_slug, doc_name)
+        document_id = create_document(session, api_url, slug, doc_name)
 
         for idx, img_path in enumerate(image_paths):
             upload_image(session, api_url, document_id, img_path)
@@ -133,10 +127,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Upload HF dataset images to eScriptorium")
     parser.add_argument("dataset")
     parser.add_argument("--split", default="train")
-    parser.add_argument("--project-slug", default="admins-project")
+    parser.add_argument("--project-id", type=int, default=1)
     parser.add_argument("--doc-name")
     parser.add_argument("--image-column", default="image")
     parser.add_argument("--max-samples", type=int)
     args = parser.parse_args()
-    main(dataset_name=args.dataset, split=args.split, project_slug=args.project_slug,
+    main(dataset_name=args.dataset, split=args.split, project_id=args.project_id,
          doc_name=args.doc_name, image_column=args.image_column, max_samples=args.max_samples)

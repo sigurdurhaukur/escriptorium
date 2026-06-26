@@ -26,3 +26,9 @@ wsl-dev*
 wsl_dev*
 test_media/
 .vscode
+
+# Training model artifacts
+training/*.safetensors
+training/*.mlmodel
+training/checkpoints/
+training/logs.txt

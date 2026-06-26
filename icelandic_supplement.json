@@ -1,0 +1,151 @@
+{
+    "version": "0.1",
+    "name": "Íslenska",
+    "author": "Virtual Kabbage & Icelandic supplement",
+    "characters": [
+        {
+            "row": 0,
+            "column": 0,
+            "character": "„",
+            "keyboard_code": null
+        },
+        {
+            "row": 0,
+            "column": 1,
+            "character": "“",
+            "keyboard_code": null
+        },
+        {
+            "row": 0,
+            "column": 2,
+            "character": "‚",
+            "keyboard_code": null
+        },
+        {
+            "row": 0,
+            "column": 3,
+            "character": "‘",
+            "keyboard_code": null
+        },
+        {
+            "row": 0,
+            "column": 4,
+            "character": "Á",
+            "keyboard_code": null
+        },
+        {
+            "row": 0,
+            "column": 5,
+            "character": "á",
+            "keyboard_code": null
+        },
+        {
+            "row": 0,
+            "column": 6,
+            "character": "Ð",
+            "keyboard_code": null
+        },
+        {
+            "row": 0,
+            "column": 7,
+            "character": "ð",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 0,
+            "character": "É",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 1,
+            "character": "é",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 2,
+            "character": "Í",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 3,
+            "character": "í",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 4,
+            "character": "Ó",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 5,
+            "character": "ó",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 6,
+            "character": "Ú",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 7,
+            "character": "ú",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 0,
+            "character": "Ý",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 1,
+            "character": "ý",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 2,
+            "character": "Þ",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 3,
+            "character": "þ",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 4,
+            "character": "Æ",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 5,
+            "character": "æ",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 6,
+            "character": "Ö",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 7,
+            "character": "ö",
+            "keyboard_code": null
+        }
+    ]
+}
