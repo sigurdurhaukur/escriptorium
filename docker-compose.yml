@@ -50,20 +50,26 @@ services:
     <<: *app
     environment:
       - OMP_NUM_THREADS=1
-    command: "celery -A escriptorium worker -l INFO -E -Ofair --prefetch-multiplier 1 -Q default -c ${CELERY_MAIN_CONC:-10} --max-tasks-per-child=10"
+    command: "celery -A escriptorium worker -l INFO -E -Ofair --prefetch-multiplier 1 -Q default -c ${CELERY_MAIN_CONC:-3} --max-tasks-per-child=10"
 
   celery-live:
     <<: *app
-    command: "celery -A escriptorium worker -l INFO -E -Ofair --prefetch-multiplier 1 -Q live -c ${CELERY_LIVE_CONC:-10} --max-tasks-per-child=10"
+    environment:
+      - OMP_NUM_THREADS=1
+    command: "celery -A escriptorium worker -l INFO -E -Ofair --prefetch-multiplier 1 -Q live -c ${CELERY_LIVE_CONC:-2} --max-tasks-per-child=10"
 
   celery-low-priority:
     <<: *app
-    command: "celery -A escriptorium worker -l INFO -E -Ofair --prefetch-multiplier 1 -Q low-priority -c ${CELERY_LOW_CONC:-10} --max-tasks-per-child=10"
+    environment:
+      - OMP_NUM_THREADS=1
+    command: "celery -A escriptorium worker -l INFO -E -Ofair --prefetch-multiplier 1 -Q low-priority -c ${CELERY_LOW_CONC:-2} --max-tasks-per-child=10"
 
   celery-gpu: &celery-gpu
     <<: *app
     environment:
       - KRAKEN_TRAINING_DEVICE=cpu
+      - OMP_NUM_THREADS=1
+      - KRAKEN_TRAINING_LOAD_THREADS=2
     command: "celery -A escriptorium worker -l INFO -E -Ofair --prefetch-multiplier 1 -Q gpu -c 1 --max-tasks-per-child=1"
     shm_size: '3gb'
 

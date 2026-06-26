@@ -1,0 +1,11 @@
+[project]
+name = "hf-upload"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.12"
+dependencies = [
+    "datasets>=5.0.0",
+    "escriptorium-connector>=0.0.20",
+    "pillow>=12.2.0",
+    "python-dotenv>=1.2.2",
+]
