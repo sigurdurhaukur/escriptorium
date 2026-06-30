@@ -36,6 +36,22 @@ class TestBuildHfDataset:
         assert isinstance(img, Image.Image)
         assert img.size == (200, 30)
 
+    def test_crops_image_to_mask(self, tmp_path):
+        img = Image.new("L", (400, 60), color=255)
+        img_path = tmp_path / "big_page.png"
+        img.save(img_path)
+        gt = [{
+            "image": str(img_path),
+            "baseline": [[100, 30], [300, 30]],
+            "mask": [[80, 10], [320, 10], [320, 50], [80, 50]],
+            "content": "cropped",
+        }]
+        ds = build_hf_dataset(gt)
+        row = ds[0]
+        assert row["image"].size == (241, 41)
+        assert row["baseline"] == [[20, 20], [220, 20]]
+        assert row["mask"] == [[0, 0], [240, 0], [240, 40], [0, 40]]
+
     def test_features_schema(self, sample_ground_truth):
         ds = build_hf_dataset(sample_ground_truth)
         assert "image" in ds.features

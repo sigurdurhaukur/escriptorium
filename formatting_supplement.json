@@ -1,0 +1,115 @@
+{
+    "version": "0.1",
+    "name": "Formatting supplement",
+    "author": "eScriptorium",
+    "characters": [
+        {
+            "row": 0,
+            "column": 0,
+            "character": "•",
+            "keyboard_code": null
+        },
+        {
+            "row": 0,
+            "column": 1,
+            "character": "‣",
+            "keyboard_code": null
+        },
+        {
+            "row": 0,
+            "column": 2,
+            "character": "⁃",
+            "keyboard_code": null
+        },
+        {
+            "row": 0,
+            "column": 3,
+            "character": "–",
+            "keyboard_code": null
+        },
+        {
+            "row": 0,
+            "column": 4,
+            "character": "—",
+            "keyboard_code": null
+        },
+        {
+            "row": 0,
+            "column": 5,
+            "character": "…",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 0,
+            "character": "«",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 1,
+            "character": "»",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 2,
+            "character": "\u201C",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 3,
+            "character": "\u201D",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 4,
+            "character": "„",
+            "keyboard_code": null
+        },
+        {
+            "row": 1,
+            "column": 5,
+            "character": "\u201F",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 0,
+            "character": "\u2039",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 1,
+            "character": "\u203A",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 2,
+            "character": "\u2018",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 3,
+            "character": "\u2019",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 4,
+            "character": "‚",
+            "keyboard_code": null
+        },
+        {
+            "row": 2,
+            "column": 5,
+            "character": "·",
+            "keyboard_code": null
+        }
+    ]
+}

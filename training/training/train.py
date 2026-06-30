@@ -1,11 +1,37 @@
 import logging
 import os
 
+from lightning.pytorch.callbacks import Callback
 from kraken.configs import VGSLRecognitionTrainingConfig, VGSLRecognitionTrainingDataConfig
 from kraken.models import convert_models
 from kraken.train import VGSLRecognitionDataModule, VGSLRecognitionModel, KrakenTrainer
 
 logger = logging.getLogger("training.train")
+
+
+class MetricsCallback(Callback):
+    def __init__(self):
+        self.best_accuracy = 0.0
+        self.best_cer = float("inf")
+        self.best_wer = float("inf")
+
+    def on_validation_epoch_end(self, trainer, pl_module):
+        if trainer.sanity_checking:
+            return
+        cer = float(pl_module.val_cer.compute())
+        wer = float(pl_module.val_wer.compute())
+        accuracy = 1.0 - cer
+        logger.info(
+            "Epoch %d: CER=%.4f, WER=%.4f, Accuracy=%.4f",
+            trainer.current_epoch,
+            cer,
+            wer,
+            accuracy,
+        )
+        if accuracy > self.best_accuracy:
+            self.best_accuracy = accuracy
+            self.best_cer = cer
+            self.best_wer = wer
 
 
 def run_training(
@@ -42,6 +68,7 @@ def run_training(
         model = VGSLRecognitionModel(train_config)
         logger.info("Created new VGSL model (default architecture)")
 
+    metrics_cb = MetricsCallback()
     trainer = KrakenTrainer(
         accelerator=device,
         devices="auto",
@@ -50,9 +77,18 @@ def run_training(
         enable_summary=False,
         enable_progress_bar=True,
         val_check_interval=1.0,
+        callbacks=[metrics_cb],
     )
 
     trainer.fit(model, dm)
+
+    if metrics_cb.best_cer != float("inf"):
+        logger.info(
+            "Best validation: CER=%.4f, WER=%.4f, Accuracy=%.4f",
+            metrics_cb.best_cer,
+            metrics_cb.best_wer,
+            metrics_cb.best_accuracy,
+        )
 
     best_path = getattr(getattr(trainer, "checkpoint_callback", None), "best_model_path", None)
     if best_path and os.path.exists(best_path):
@@ -65,3 +101,5 @@ def run_training(
         convert_models([final_ckpt], output_path)
 
     logger.info("Model saved to %s", output_path)
+
+    return metrics_cb

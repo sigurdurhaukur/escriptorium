@@ -2,7 +2,7 @@
 ESCRIPTORIUM_URL="http://localhost:8080"
 ESCRIPTORIUM_USERNAME="admin"
 ESCRIPTORIUM_PASSWORD="admin"
-DOCUMENT_ID=5
+DOCUMENT_ID=6
 TRANSCRIPTION_NAME="manual"
 MODEL_PATH="catmus-print-fondue-large.mlmodel"
 EPOCHS=1
