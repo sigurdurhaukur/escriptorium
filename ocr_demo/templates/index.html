@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icelandic OCR Demo</title>
+    <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>Icelandic OCR Demo</h1>
+        <p>Upload a document image to run automatic segmentation and text recognition</p>
+    </header>
+
+    <main>
+        <div class="upload-card">
+            <form hx-post="/transcribe"
+                  hx-target="#result"
+                  hx-encoding="multipart/form-data"
+                  hx-indicator="#spinner"
+                  hx-swap="innerHTML">
+                <label class="file-label">
+                    <input type="file" name="file" accept="image/*" required id="file-input">
+                    <span id="file-name">Choose an image…</span>
+                </label>
+                <button type="submit" class="btn-primary">Run OCR</button>
+            </form>
+            <div id="spinner" class="htmx-indicator">
+                <div class="spinner-ring"></div>
+                <span>Running segmentation and recognition — this may take a moment…</span>
+            </div>
+        </div>
+
+        <div id="result"></div>
+    </main>
+
+    <script>
+        document.getElementById('file-input').addEventListener('change', function () {
+            const name = this.files[0]?.name || 'Choose an image…';
+            document.getElementById('file-name').textContent = name;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<div class="result-section">
+    <div class="result-meta">
+        <span><strong>{{ line_count }}</strong> lines detected</span>
+    </div>
+
+    <div class="dual-view">
+        <div class="view-panel">
+            <div class="panel-label">Original</div>
+            <div class="image-container">
+                <img src="data:{{ mime }};base64,{{ image_b64 }}" alt="Document">
+            </div>
+        </div>
+
+        <div class="view-panel">
+            <div class="panel-label">Transcription</div>
+            <div class="image-container">
+                <svg viewBox="0 0 {{ width }} {{ height }}"
+                     style="width: 100%; height: auto; display: block; background: white;">
+                    {% for line in lines %}
+                    {% if line.boundary %}
+                    <polygon points="{{ line.boundary | points }}"
+                             fill="rgba(59, 130, 246, 0.06)"
+                             stroke="rgba(59, 130, 246, 0.3)"
+                             stroke-width="1.5"/>
+                    {% endif %}
+                    {% if line.baseline and line.text %}
+                    <text x="{{ line.baseline[0][0] }}"
+                          y="{{ line.baseline[0][1] }}"
+                          font-size="{{ line.font_size }}"
+                          font-family="Georgia, serif"
+                          fill="#1e293b">{{ line.text }}</text>
+                    {% endif %}
+                    {% endfor %}
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="plain-text">
+        <h3>Extracted text</h3>
+        <pre>{% for line in lines %}{{ line.text }}
+{% endfor %}</pre>
+    </div>
+</div>
