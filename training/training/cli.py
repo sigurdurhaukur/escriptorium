@@ -40,6 +40,8 @@ def main():
     parser.add_argument("--model-path", help="Path to existing .safetensors model for fine-tuning")
     parser.add_argument("--batch-size", type=int, default=4)
     parser.add_argument("--epochs", type=int, default=50)
+    parser.add_argument("--early-stop-patience", type=int, default=5,
+                        help="Stop if val CER doesn't improve for N epochs (0 = disable)")
     parser.add_argument("--precision", default="32", choices=["16-mixed", "32"])
     parser.add_argument("--device", default="mps", choices=["mps", "cpu"])
     parser.add_argument("--output", default="icelandic_model.safetensors", help="Output model path")
@@ -170,6 +172,7 @@ def main():
         output_path=args.output,
         batch_size=args.batch_size,
         max_epochs=args.epochs,
+        early_stop_patience=args.early_stop_patience,
         device=device,
         precision=args.precision,
         model_path=args.model_path,

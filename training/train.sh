@@ -5,8 +5,9 @@ ESCRIPTORIUM_PASSWORD="admin"
 DOCUMENT_ID=6
 TRANSCRIPTION_NAME="manual"
 MODEL_PATH="catmus-print-fondue-large.mlmodel"
-EPOCHS=1
-BATCH_SIZE=2
+EPOCHS=3
+EARLY_STOP_PATIENCE=1
+BATCH_SIZE=32
 OUTPUT="catmus-print-fondue-ft.safetensors"
 
 uv run python -m training.cli \
@@ -17,5 +18,6 @@ uv run python -m training.cli \
     --transcription-name "$TRANSCRIPTION_NAME" \
     --model-path "$MODEL_PATH" \
     --epochs "$EPOCHS" \
+    --early-stop-patience "$EARLY_STOP_PATIENCE" \
     --batch-size "$BATCH_SIZE" \
     --output "$OUTPUT"

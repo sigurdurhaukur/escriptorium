@@ -1,7 +1,7 @@
 import logging
 import os
 
-from lightning.pytorch.callbacks import Callback
+from lightning.pytorch.callbacks import Callback, EarlyStopping
 from kraken.configs import VGSLRecognitionTrainingConfig, VGSLRecognitionTrainingDataConfig
 from kraken.models import convert_models
 from kraken.train import VGSLRecognitionDataModule, VGSLRecognitionModel, KrakenTrainer
@@ -40,6 +40,7 @@ def run_training(
     output_path: str,
     batch_size: int = 4,
     max_epochs: int = 50,
+    early_stop_patience: int = 5,
     device: str = "mps",
     precision: str = "32",
     model_path: str | None = None,
@@ -68,7 +69,17 @@ def run_training(
         model = VGSLRecognitionModel(train_config)
         logger.info("Created new VGSL model (default architecture)")
 
-    metrics_cb = MetricsCallback()
+    callbacks = [MetricsCallback()]
+    if early_stop_patience > 0:
+        callbacks.append(
+            EarlyStopping(
+                monitor="val_cer",
+                patience=early_stop_patience,
+                mode="min",
+                min_delta=0.0,
+            )
+        )
+
     trainer = KrakenTrainer(
         accelerator=device,
         devices="auto",
@@ -77,7 +88,7 @@ def run_training(
         enable_summary=False,
         enable_progress_bar=True,
         val_check_interval=1.0,
-        callbacks=[metrics_cb],
+        callbacks=callbacks,
     )
 
     trainer.fit(model, dm)
