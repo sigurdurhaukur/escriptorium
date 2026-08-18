@@ -196,7 +196,10 @@ LOCALE_PATHS = [
 ]
 
 EMAIL_HOST = os.getenv('EMAIL_HOST', 'localhost')
-EMAIL_PORT = os.getenv('EMAIL_PORT', 25)
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 25))
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'False').lower() in ('true', '1')
 DEFAULT_FROM_EMAIL = os.getenv('DJANGO_FROM_EMAIL', 'noreply@example.com')
 
 REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
