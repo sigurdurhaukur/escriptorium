@@ -50,9 +50,8 @@
     display: block !important;
   }
 
-  /* Make feature/blog/edu cards flex containers for vertical centering */
+  /* Make feature/edu cards flex containers for vertical centering */
   .homepage .feature-card,
-  .homepage .blog-card,
   .homepage .edu-card {
     display: flex !important;
     flex-direction: column !important;
@@ -61,7 +60,6 @@
   }
 
   .feature-card,
-  .blog-card,
   .edu-card {
     display: flex !important;
     flex-direction: column !important;
@@ -207,11 +205,6 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
 
-  .feature-card .icon {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-
   .feature-card h3 {
     font-size: 1.25rem;
     font-weight: 600;
@@ -300,29 +293,6 @@
     margin-bottom: 0;
   }
 
-  /* Blog card */
-  .blog-card {
-    border: 1px solid rgba(128, 128, 128, 0.12);
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    height: 100%;
-    transition: border-color 0.2s;
-  }
-
-  .blog-card:hover {
-    border-color: var(--ice-teal);
-  }
-
-  .blog-card .date {
-    font-size: 0.8rem;
-    opacity: 0.6;
-  }
-
-  .blog-card h4 {
-    font-size: 1.05rem;
-    font-weight: 600;
-  }
-
   /* CTA block */
   .cta-block {
     border-radius: 1rem;
@@ -386,24 +356,20 @@
 <!-- ============ HERO ============ -->
 <section class="landing-section hero">
   <div class="container" style="max-width: 780px;">
-    <p class="hero-tagline">
-      Ljóslestur fyrir Íslensku
-      <span class="flag-divider"></span>
-      OCR for Icelandic
-    </p>
     <h1 class="hero-brand">Icelandic OCR</h1>
-    <h2 class="hero-headline">Digitizing Iceland's Literary Heritage</h2>
+    <h2 class="hero-headline">The first Icelandic OCR benchmark, built by volunteers</h2>
     <p class="hero-sub">
-      Open-source HTR and OCR for historical Icelandic documents.
-      A crowdsourcing platform to build the first automated text recognition
-      system for the Icelandic language.
+      This is the official annotation platform for the first benchmark for
+      Icelandic OCR. Kickstarted by Sigurdur Haukur Birgisson as part of his
+      research at the University of Groningen, it relies on volunteers to
+      transcribe historical Icelandic documents.
     </p>
     <div class="mt-4">
       <a href="mailto:sigurdur@sigurdurhaukur.com" class="btn btn-primary btn-lg px-4 me-3 mb-2">
         Join the project
       </a>
-      <a href="#demo" class="btn btn-outline-secondary btn-lg px-4 mb-2">
-        Try the demo &darr;
+      <a href="https://ocr.sigurdurhaukur.com/" target="_blank" class="btn btn-outline-secondary btn-lg px-4 mb-2">
+        Try the demo
       </a>
     </div>
   </div>
@@ -416,15 +382,66 @@
     <p class="text-center mb-4" style="opacity:0.65;">
       Upload a page &mdash; Icelandic OCR transcribes it automatically
     </p>
-    <div style="position: relative; width: 100%; min-height: 700px;">
-      <iframe
-        src="https://sigurdur-icelandic-ocr.hf.space"
-        frameborder="0"
-        width="100%"
-        height="700"
-        style="border-radius: 0.75rem; border: 1px solid rgba(128,128,128,0.15);"
-      ></iframe>
+    <div class="text-center">
+      <a href="https://ocr.sigurdurhaukur.com/" target="_blank" class="btn btn-primary btn-lg px-5">
+        Try the demo
+      </a>
     </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="landing-section">
+  <div class="container" style="max-width: 960px;">
+    <h3 class="text-center mb-5 fw-bold">How it works</h3>
+    <ul class="step-track">
+      <li class="step-item">
+        <span class="step-number">1</span>
+        <div class="step-body">
+          <h4>Scan documents</h4>
+          <p>
+            We start with scanned historical Icelandic documents &mdash;
+            newspapers, manuscripts, and letters.
+          </p>
+        </div>
+      </li>
+      <li class="step-item">
+        <span class="step-number">2</span>
+        <div class="step-body">
+          <h4>Run the OCR model</h4>
+          <p>
+            A pre-trained OCR model produces a first draft transcription
+            of every page.
+          </p>
+        </div>
+      </li>
+      <li class="step-item">
+        <span class="step-number">3</span>
+        <div class="step-body">
+          <h4>Correct the errors</h4>
+          <p>
+            Volunteers manually correct the mistakes in the draft,
+            building a growing corpus of verified transcriptions.
+          </p>
+        </div>
+      </li>
+      <li class="step-item">
+        <span class="step-number">4</span>
+        <div class="step-body">
+          <h4>Retrain &amp; repeat</h4>
+          <p>
+            The corrected pages are used to retrain the model. As more
+            errors are corrected the model improves, and the cycle repeats.
+          </p>
+        </div>
+      </li>
+    </ul>
+    <p class="text-center mt-4" style="opacity:0.75;">
+      With every corrected page the model gets more accurate.
+      <br>
+      To see the latest version in action, visit the
+      <a href="https://ocr.sigurdurhaukur.com/" target="_blank">demo page</a>.
+    </p>
   </div>
 </section>
 
@@ -434,35 +451,33 @@
     <div class="row g-4">
       <div class="col-md-4">
         <div class="feature-card text-center">
-          <div class="icon">&#9998;</div>
           <h3>Contribute transcriptions</h3>
           <p style="opacity:0.75;">
-            Help train models by annotating historical Icelandic documents
-            in the browser.
+            Annotate historical Icelandic documents in the browser. Every
+            transcription brings the first Icelandic OCR benchmark closer
+            to completion.
           </p>
           <a href="{% url 'login' %}" class="btn btn-sm btn-outline-primary">Start annotating</a>
         </div>
       </div>
       <div class="col-md-4">
         <div class="feature-card text-center">
-          <div class="icon">&#128451;</div>
           <h3>Access training data</h3>
           <p style="opacity:0.75;">
-            19th-century letters, newspapers from <em>timarit.is</em>,
-            manuscripts from <em>handrit.is</em>, and more.
+            The training data and models are published openly as the first
+            public benchmark for Icelandic OCR.
           </p>
           <a href="https://huggingface.co/Sigurdur" class="btn btn-sm btn-outline-primary" target="_blank">Browse on HF</a>
         </div>
       </div>
       <div class="col-md-4">
         <div class="feature-card text-center">
-          <div class="icon">&#128214;</div>
-          <h3>Research &amp; updates</h3>
+          <h3>Kickstarted in research</h3>
           <p style="opacity:0.75;">
-            Latest findings on Icelandic OCR, benchmarks, and active
-            learning strategies.
+            Part of Sigurdur Haukur Birgisson's research at the University
+            of Groningen on low-resource language technology.
           </p>
-          <a href="#" class="btn btn-sm btn-outline-primary">Read blog</a>
+          <a href="https://github.com/sigurdurhaukur/ocr-icelandic" class="btn btn-sm btn-outline-primary" target="_blank">GitHub</a>
         </div>
       </div>
     </div>
@@ -535,58 +550,15 @@
   </div>
 </section>
 
-<!-- ============ BLOG ============ -->
-<section class="landing-section">
-  <div class="container" style="max-width: 960px;">
-    <h3 class="text-center mb-4 fw-bold">Latest updates</h3>
-
-    <div class="row g-3">
-      <!-- blog card 1 -->
-      <div class="col-md-4">
-        <div class="blog-card">
-          <p class="date">June 2026</p>
-          <h4>Benchmarking OCR models for 19th-century Icelandic</h4>
-          <p class="small" style="opacity:0.65;">
-            We evaluate Kraken, Tesseract, and TrOCR on a corpus of
-            handwritten letters from the National Archives.
-          </p>
-        </div>
-      </div>
-      <!-- blog card 2 -->
-      <div class="col-md-4">
-        <div class="blog-card">
-          <p class="date">May 2026</p>
-          <h4>Active learning pipeline goes live</h4>
-          <p class="small" style="opacity:0.65;">
-            Our new annotation workflow prioritises uncertain predictions
-            so every hour of labelling delivers maximum model improvement.
-          </p>
-        </div>
-      </div>
-      <!-- blog card 3 -->
-      <div class="col-md-4">
-        <div class="blog-card">
-          <p class="date">April 2026</p>
-          <h4>Partnership with University of Groningen</h4>
-          <p class="small" style="opacity:0.65;">
-            The Centre for Digital Humanities provides GPU compute and
-            research support for training Icelandic HTR models.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ CLOSING CTA ============ -->
 <section class="landing-section">
   <div class="container" style="max-width: 700px;">
     <div class="cta-block">
-      <h3 class="fw-bold mb-2">Join the mission</h3>
+      <h3 class="fw-bold mb-2">Help build the first Icelandic OCR benchmark</h3>
       <p style="opacity:0.75; max-width: 480px; margin: 0 auto 1.5rem;">
-        We're recruiting annotators, researchers, and developers.
-        No experience with OCR needed &mdash; just an interest in
-        Icelandic cultural heritage.
+        We're looking for volunteers to transcribe historical Icelandic
+        documents. No technical experience needed &mdash; just an interest
+        in Icelandic cultural heritage.
       </p>
       <a href="mailto:sigurdur@sigurdurhaukur.com" class="btn btn-primary btn-lg px-5">
         Get involved
@@ -600,15 +572,10 @@
   <div class="container" style="max-width: 960px;">
     <div class="row">
       <div class="col-md-4 mb-3">
-        <h6>Data partners</h6>
-        <div>
-          <span class="attr-badge">CLARIN-IS</span>
-          <span class="attr-badge">timarit.is</span>
-          <span class="attr-badge">handrit.is</span>
-        </div>
-        <p class="small mt-2" style="opacity:0.5;">
+        <p class="small" style="opacity:0.5;">
           Built on <a href="https://escriptorium.eu/" target="_blank">eScriptorium</a>
           &middot; OCR engine by <a href="http://kraken.re/" target="_blank">Kraken</a>
+          &middot; research at the University of Groningen
         </p>
       </div>
       <div class="col-md-4 mb-3">
