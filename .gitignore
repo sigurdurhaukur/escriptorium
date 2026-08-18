@@ -32,3 +32,4 @@ training/*.safetensors
 training/*.mlmodel
 training/checkpoints/
 training/logs.txt
+ocr_demo/models/
